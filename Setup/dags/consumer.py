@@ -14,4 +14,7 @@ with DAG(
     reader_task = BashOperator(
         task_id="reader_task",
         bash_command="cat /tmp/myDataSet1.txt",
+        inlets=[
+            myDataSet1
+        ],  ## this is not required for actual scheduling, this is to create dependency documentation and for airflow UI to show which task in DAG actaully uses the datasource.
     )
