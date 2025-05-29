@@ -11,5 +11,14 @@ with DAG(
     catchup=False,
     default_args={"owner": "random_owner"},
 ) as dag:
-    task_a = BashOperator(task_id="task_a", bash_command="echo task_a", owner="navi")
-    task_b = BashOperator(task_id="task_b", bash_command="echo task_b", owner="navi2")
+    task_a = BashOperator(
+        task_id="task_a", retries=5, bash_command="echo task_a", owner="navi"
+    )
+
+    ## This task will fail as the return is exit code 1
+    task_b = BashOperator(
+        task_id="task_b",
+        retries=5,
+        bash_command="echo 'task_b' && exit 1",
+        owner="navi2",
+    )
