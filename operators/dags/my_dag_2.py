@@ -19,6 +19,7 @@ with DAG(
     task_b = BashOperator(
         task_id="task_b",
         retries=5,
+        retry_delay=10,
         bash_command="echo 'task_b' && exit 1",
         owner="navi2",
     )
