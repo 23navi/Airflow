@@ -34,4 +34,4 @@ Now run the docker compose instance
 docker compose up -d
 ```
 
-Airflow will start on port 3000 with default username and password
+Airflow will start on port 8080 with default username and password
