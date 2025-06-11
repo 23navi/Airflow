@@ -35,3 +35,17 @@ docker compose up -d
 ```
 
 Airflow will start on port 8080 with default username and password
+
+Say we want to get auto complete, and we are not getting it
+
+One issue can be the python interpreter mismatch
+
+Click on that buttom python interpreter selector and make sure it is using the correct ./venv interpter
+
+Else run
+
+```bash
+which python
+```
+
+in current active venv env and use that in interperter
