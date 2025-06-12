@@ -1,5 +1,7 @@
 # Airflow configuration
-airflow.cfg
+
+# airflow.cfg
+
 airflow_login.py
 dbinit.py
 initdb.py
