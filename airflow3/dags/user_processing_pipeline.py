@@ -3,9 +3,20 @@ from airflow.sdk import dag, task
 ## Note: Postgres operator is now depricated and so did mysql operator, now for all sql base query, we can do it using this SQLExecuteQueryOperator
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 
+# from airflow.providers.standard.operators.python import PythonOperator
 
-## API available sensor
+
+## To use this postgres provider, we must install it as it is not part of default providers that airflow ships with: uv pip install apache-airflow-providers-postgres==6.1.3
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+
+
 from airflow.sdk.bases.sensor import PokeReturnValue
+
+
+## Note: Here we were using xcom to communicate the fake user from is_api_available() task, but with task decorator, we won't have to do it
+# def _extract_user(ti):
+#     fake_user= ti.xcom_pull(task_ids="is_api_available")
+#     print(fake_user)
 
 
 @dag
@@ -43,8 +54,23 @@ def user_processing():
             return PokeReturnValue(is_done=True, xcom_value=response.json())
         else:
             return PokeReturnValue(is_done=False, xcom_value=None)
+        
+    # extract_user= PythonOperator(
+    #     task_id="extract_user",
+    #     python_callable=_extract_user
+    # )
 
-    is_api_available()
+
+    @task
+    def extract_user(fake_user):
+        return {
+            "id":fake_user["id"]
+        }
+
+    fake_user= is_api_available()
+    print(fake_user)
+    extract_user(fake_user)
+
 
     ## To test the task: airflow tasks test user_processing is_api_available (in scheduler container)
 
